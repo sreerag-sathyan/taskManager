@@ -1,0 +1,20 @@
+const catchAsync = (fn) => {
+  return (req, res, next) => {
+    fn(req, res, next).catch((err) => next(err));
+  };
+};
+
+const handleErrors = (err, req, res, next) => {
+  const status = err.statusCode || 500;
+  const message = err.message || "Error";
+
+  res.status(status).json({
+    status: 'fail',
+    message
+  });
+};
+
+module.exports = {
+  handleErrors,
+  catchAsync,
+};
